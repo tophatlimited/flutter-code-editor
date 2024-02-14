@@ -14,7 +14,7 @@ void main() {
 }
 
 final controller = CodeController(
-  text: javaFactorialSnippet,
+  text: javaFactorialSectionsSnippet,
   language: java,
 );
 
@@ -23,7 +23,7 @@ class CodeEditor extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //controller.visibleSectionNames = {'section1'};
+    controller.visibleSectionNames = {'section1'};
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(

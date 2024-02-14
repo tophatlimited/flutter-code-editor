@@ -52,3 +52,20 @@ void main(){
   print('Factorial of $num is  ${factorial(num)}');
 }
 ''';
+
+const javascriptSnippet = '''
+console.config({
+    maxEntries: 5
+});
+let i = 0;
+///[START msection1]
+const handle = setInterval(function() {
+
+    ++i;
+    console.log(`Entry #`);
+    if (i === 10) {
+        clearInterval(handle);
+    }
+}, 1000);
+///[END msection1]
+''';
