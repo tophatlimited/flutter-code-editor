@@ -199,8 +199,6 @@ class Code {
   }) {
     for (final name in readOnlySectionNames) {
       final section = sections[name];
-      print('section?.firstLine.toString()');
-      print(section?.name.toString());
       if (section == null) {
         continue;
       }
