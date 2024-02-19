@@ -65,6 +65,7 @@ class CodeController extends TextEditingController {
 
   final AbstractNamedSectionParser? namedSectionParser;
   Set<String> _readOnlySectionNames;
+  Set<String> _writableSectionNames;
 
   /// A map of specific regexes to style
   final Map<String, TextStyle>? patternMap;
@@ -138,6 +139,7 @@ class CodeController extends TextEditingController {
     AbstractAnalyzer analyzer = const DefaultLocalAnalyzer(),
     this.namedSectionParser,
     Set<String> readOnlySectionNames = const {},
+    Set<String> writableSectionNames = const {},
     Set<String> visibleSectionNames = const {},
     this.analysisResult = const AnalysisResult(issues: []),
     this.patternMap,
@@ -150,6 +152,7 @@ class CodeController extends TextEditingController {
     ],
   })  : _analyzer = analyzer,
         _readOnlySectionNames = readOnlySectionNames,
+        _writableSectionNames = writableSectionNames,
         _code = Code.empty,
         _isTabReplacementEnabled = modifiers.any((e) => e is TabModifier) {
     setLanguage(language, analyzer: analyzer);
@@ -751,6 +754,7 @@ class CodeController extends TextEditingController {
       highlighted: highlight.parse(text, language: _languageId),
       namedSectionParser: namedSectionParser,
       readOnlySectionNames: _readOnlySectionNames,
+      writableSectionNames: _writableSectionNames,
       visibleSectionNames: _visibleSectionNames,
     );
   }
@@ -794,9 +798,17 @@ class CodeController extends TextEditingController {
   }
 
   Set<String> get readOnlySectionNames => _readOnlySectionNames;
+  Set<String> get writableSectionNames => _writableSectionNames;
 
   set readOnlySectionNames(Set<String> newValue) {
     _readOnlySectionNames = newValue;
+    _updateCode(_code.text);
+
+    notifyListeners();
+  }
+
+  set writableSectionNames(Set<String> newValue) {
+    _writableSectionNames = newValue;
     _updateCode(_code.text);
 
     notifyListeners();

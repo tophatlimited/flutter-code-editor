@@ -29,10 +29,10 @@ class MyClass {
     return n * factorial(n - 1);
   }
 
-  public static void main(String[] args) {// [START section1]
+  public static void main(String[] args) {/// [START section1]
     int num = 5;
     System.out.println("Factorial of " + num + " is " + factorial(num));
-  }// [END section1]
+  }/// [END section1]
 }
 ''';
 
@@ -68,4 +68,25 @@ const handle = setInterval(function() {
     }
 }, 1000);
 ///[END msection1]
+''';
+
+const javaFactorialSnippetM = '''
+class MyClass {
+  /// Calculates the factorial of the number.
+  /// The number must be >= 0.
+  static int factorial(int n) {
+    if (n == 0) {
+      return 1;
+    }
+
+    return n * factorial(n - 1);
+  }
+
+  public static void main(String[] args) {
+    // [START msection]
+    int num = 5;
+    System.out.println("Factorial of " + num + " is " + factorial(5));
+    // [END msection]
+  }
+}
 ''';
