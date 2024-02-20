@@ -98,16 +98,19 @@ class Code {
         const [];
     final sectionsMap = {for (final s in sections) s.name: s};
 
-    final isCodeReadonly =
-        visibleSectionNames.isNotEmpty || writableSectionNames.isNotEmpty;
-    if (isCodeReadonly) {
+    if (visibleSectionNames.isNotEmpty) {
       _makeCodeReadonly(lines: lines.lines);
+    } else if (writableSectionNames.isNotEmpty) {
+      _applyWritableNamedSectionsToLines(
+        lines: lines.lines,
+        sections: sectionsMap,
+        writableSectionNames: writableSectionNames,
+      );
     } else {
-      _applyNamedSectionsToLines(
+      _applyReadOnlyNamedSectionsToLines(
         lines: lines.lines,
         sections: sectionsMap,
         readOnlySectionNames: readOnlySectionNames,
-        writableSectionNames: writableSectionNames,
       );
     }
 
@@ -132,6 +135,7 @@ class Code {
 
     final hiddenLineRangesBuilder = HiddenLineRangesBuilder(
       codeLines: lines,
+      //TODO
       hiddenRanges: HiddenRanges(ranges: [], textLength: 0), // hiddenRanges,
     );
 
@@ -192,13 +196,31 @@ class Code {
     }
   }
 
-  static void _applyNamedSectionsToLines({
+  static void _applyReadOnlyNamedSectionsToLines({
     required List<CodeLine> lines,
     required Map<String, NamedSection> sections,
     required Set<String> readOnlySectionNames,
-    required Set<String> writableSectionNames,
   }) {
     for (final name in readOnlySectionNames) {
+      final section = sections[name];
+      if (section == null) {
+        continue;
+      }
+
+      final lastLineIndex = section.lastLine ?? lines.length - 1;
+
+      for (int i = section.firstLine; i <= lastLineIndex; i++) {
+        lines[i] = lines[i].copyWith(isReadOnly: true);
+      }
+    }
+  }
+
+  static void _applyWritableNamedSectionsToLines({
+    required List<CodeLine> lines,
+    required Map<String, NamedSection> sections,
+    required Set<String> writableSectionNames,
+  }) {
+    for (final name in writableSectionNames) {
       final section = sections[name];
       if (section == null) {
         continue;
