@@ -197,24 +197,24 @@ class Code {
     required Set<String> readOnlySectionNames,
     required Set<String> writableSectionNames,
   }) {
-    for (final name in readOnlySectionNames) {
-      final section = sections[name];
-      if (section == null) {
-        continue;
-      }
+    // for (final name in readOnlySectionNames) {
+    //   final section = sections[name];
+    //   if (section == null) {
+    //     continue;
+    //   }
 
-      final lastLineIndex = section.lastLine ?? lines.length - 1;
+    //   final lastLineIndex = section.lastLine ?? lines.length - 1;
 
-      for (int i = section.firstLine; i <= lastLineIndex; i++) {
-        lines[i] = lines[i].copyWith(isReadOnly: true);
-      }
-    }
+    //   for (int i = section.firstLine; i <= lastLineIndex; i++) {
+    //     lines[i] = lines[i].copyWith(isReadOnly: true);
+    //   }
+    // }
 
     //writable sections
     //all lines readonly by default
-    // for (int i = 0; i < lines.length; i++) {
-    //   lines[i] = lines[i].copyWith(isReadOnly: true);
-    // }
+    for (int i = 0; i < lines.length; i++) {
+      lines[i] = lines[i].copyWith(isReadOnly: true);
+    }
 
     // //except writable sections
     // for (final name in writableSectionNames) {
