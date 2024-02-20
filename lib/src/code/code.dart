@@ -212,23 +212,23 @@ class Code {
 
     //writable sections
     //all lines readonly by default
-    for (int i = 0; i < lines.length; i++) {
-      lines[i] = lines[i].copyWith(isReadOnly: true);
-    }
+    // for (int i = 0; i < lines.length; i++) {
+    //   lines[i] = lines[i].copyWith(isReadOnly: true);
+    // }
 
-    //except writable sections
-    for (final name in writableSectionNames) {
-      final section = sections[name];
-      if (section == null) {
-        continue;
-      }
-      final lastLineIndex = section.lastLine ?? lines.length - 1;
+    // //except writable sections
+    // for (final name in writableSectionNames) {
+    //   final section = sections[name];
+    //   if (section == null) {
+    //     continue;
+    //   }
+    //   final lastLineIndex = section.lastLine ?? lines.length - 1;
 
-      for (int i = section.firstLine; i <= lastLineIndex; i++) {
-        lines[i] = lines[i].copyWith(isReadOnly: false);
-      }
-    }
-    //end writable sections
+    //   for (int i = section.firstLine; i <= lastLineIndex; i++) {
+    //     lines[i] = lines[i].copyWith(isReadOnly: false);
+    //   }
+    // }
+    // //end writable sections
   }
 
   ///Assumes that there is only one visible section.
