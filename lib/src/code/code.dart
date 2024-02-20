@@ -220,6 +220,11 @@ class Code {
     required Map<String, NamedSection> sections,
     required Set<String> writableSectionNames,
   }) {
+    //make code readonly
+    for (int i = 0; i < lines.length; i++) {
+      lines[i] = lines[i].copyWith(isReadOnly: true);
+    }
+    //except writable sections
     for (final name in writableSectionNames) {
       final section = sections[name];
       if (section == null) {
@@ -229,7 +234,7 @@ class Code {
       final lastLineIndex = section.lastLine ?? lines.length - 1;
 
       for (int i = section.firstLine; i <= lastLineIndex; i++) {
-        lines[i] = lines[i].copyWith(isReadOnly: true);
+        lines[i] = lines[i].copyWith(isReadOnly: false);
       }
     }
   }
