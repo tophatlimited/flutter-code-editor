@@ -325,6 +325,21 @@ class Code {
     );
   }
 
+  String getCodeInNamedSection(String name) {
+    final section = namedSections[name];
+    if (section == null) {
+      return '';
+    }
+
+    final start = section.firstLine;
+    final end = section.lastLine ?? lines.lines.length - 1;
+
+    return lines.lines
+        .sublist(start, end + 1)
+        .map((line) => line.text)
+        .join('\n');
+  }
+
   /// Returns whether any of the lines of this range is read-only.
   bool isReadOnlyInLineRange(TextRange lineRange) {
     for (int line = lineRange.start; line <= lineRange.end; line++) {
