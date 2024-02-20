@@ -98,7 +98,8 @@ class Code {
         const [];
     final sectionsMap = {for (final s in sections) s.name: s};
 
-    final isCodeReadonly = visibleSectionNames.isNotEmpty;
+    final isCodeReadonly =
+        visibleSectionNames.isNotEmpty || writableSectionNames.isNotEmpty;
     if (isCodeReadonly) {
       _makeCodeReadonly(lines: lines.lines);
     } else {
@@ -131,7 +132,7 @@ class Code {
 
     final hiddenLineRangesBuilder = HiddenLineRangesBuilder(
       codeLines: lines,
-      hiddenRanges: hiddenRanges,
+      hiddenRanges: HiddenRanges(ranges: [], textLength: 0), // hiddenRanges,
     );
 
     return Code._(
@@ -197,38 +198,18 @@ class Code {
     required Set<String> readOnlySectionNames,
     required Set<String> writableSectionNames,
   }) {
-    // for (final name in readOnlySectionNames) {
-    //   final section = sections[name];
-    //   if (section == null) {
-    //     continue;
-    //   }
+    for (final name in readOnlySectionNames) {
+      final section = sections[name];
+      if (section == null) {
+        continue;
+      }
 
-    //   final lastLineIndex = section.lastLine ?? lines.length - 1;
+      final lastLineIndex = section.lastLine ?? lines.length - 1;
 
-    //   for (int i = section.firstLine; i <= lastLineIndex; i++) {
-    //     lines[i] = lines[i].copyWith(isReadOnly: true);
-    //   }
-    // }
-
-    //writable sections
-    //all lines readonly by default
-    for (int i = 0; i < lines.length; i++) {
-      lines[i] = lines[i].copyWith(isReadOnly: true);
+      for (int i = section.firstLine; i <= lastLineIndex; i++) {
+        lines[i] = lines[i].copyWith(isReadOnly: true);
+      }
     }
-
-    // //except writable sections
-    // for (final name in writableSectionNames) {
-    //   final section = sections[name];
-    //   if (section == null) {
-    //     continue;
-    //   }
-    //   final lastLineIndex = section.lastLine ?? lines.length - 1;
-
-    //   for (int i = section.firstLine; i <= lastLineIndex; i++) {
-    //     lines[i] = lines[i].copyWith(isReadOnly: false);
-    //   }
-    // }
-    // //end writable sections
   }
 
   ///Assumes that there is only one visible section.
