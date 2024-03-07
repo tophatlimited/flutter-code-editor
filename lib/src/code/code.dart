@@ -233,7 +233,8 @@ class Code {
 
       final lastLineIndex = section.lastLine ?? lines.length - 1;
 
-      for (int i = section.firstLine; i <= lastLineIndex; i++) {
+      //1 line buffer for section markers to be read only.
+      for (int i = section.firstLine + 1; i <= lastLineIndex - 1; i++) {
         lines[i] = lines[i].copyWith(isReadOnly: false);
       }
     }
