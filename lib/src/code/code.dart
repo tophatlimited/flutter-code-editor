@@ -217,18 +217,24 @@ class Code {
     required List<CodeLine> lines,
     required Set<String> writableFunctionNames,
   }) {
-    //make header line readonly
-    for (int i = 0; i < lines.length - 1; i++) {
-      lines[i] = lines[i].copyWith(isReadOnly: true);
-      if (lines[i].text.contains('{')) {
-        break;
+    if (writableFunctionNames.isEmpty) {
+      for (int i = 0; i < lines.length - 1; i++) {
+        lines[i] = lines[i].copyWith(isReadOnly: true);
       }
-    }
-    //make footer readonly
-    for (int i = lines.length - 1; i > 0; i--) {
-      lines[i] = lines[i].copyWith(isReadOnly: true);
-      if (lines[i].text.contains('}')) {
-        break;
+    } else {
+      //make header line readonly
+      for (int i = 0; i < lines.length - 1; i++) {
+        lines[i] = lines[i].copyWith(isReadOnly: true);
+        if (lines[i].text.contains('{')) {
+          break;
+        }
+      }
+      //make footer readonly
+      for (int i = lines.length - 1; i > 0; i--) {
+        lines[i] = lines[i].copyWith(isReadOnly: true);
+        if (lines[i].text.contains('}')) {
+          break;
+        }
       }
     }
   }
