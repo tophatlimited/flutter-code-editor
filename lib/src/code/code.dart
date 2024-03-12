@@ -3,6 +3,8 @@ import 'dart:math';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:highlight/highlight_core.dart';
+import 'package:highlight/languages/graphql.dart';
+import 'package:highlight/languages/javascript.dart';
 
 import '../../src/highlight/result.dart';
 import '../code_field/text_editing_value.dart';
@@ -116,7 +118,19 @@ class Code {
     //   // );
     // }
 
-    //logicherder funciton
+    //logicherder function
+    //TODO do for each function,
+    //TODO Function parser
+    //For now assuming code has only one function and thats it
+
+    if (language == javascript) {
+      _applyWritableFunctionNamesToLines(
+        lines: lines.lines,
+        writableFunctionNames: writableFunctionNames,
+      );
+    } else if (language == graphql) {
+      _makeCodeReadonly(lines: lines.lines);
+    }
     if (writableFunctionNames.isNotEmpty) {
       _applyWritableFunctionNamesToLines(
         lines: lines.lines,
@@ -204,10 +218,6 @@ class Code {
     required List<CodeLine> lines,
     required Set<String> writableFunctionNames,
   }) {
-    //TODO do for each function,
-    //TODO Function parser
-    //For now assuming code has only one function and thats it
-
     //make header line readonly
     for (int i = 0; i < lines.length - 1; i++) {
       lines[i] = lines[i].copyWith(isReadOnly: true);
