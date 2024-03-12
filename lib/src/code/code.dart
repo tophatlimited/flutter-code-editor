@@ -386,11 +386,9 @@ class Code {
   String getWritableCode() {
     //TODO by function name
 
-    final start = 1;
-    final end = lines.lines.length - 1;
-
     return lines.lines
-        .sublist(start, end + 1)
+        .where((element) => !element.isReadOnly)
+        //.sublist(start, end + 1)
         .map((line) => line.text)
         .join('\n');
   }
