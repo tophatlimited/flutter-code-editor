@@ -53,6 +53,7 @@ class Code {
     Set<String> readOnlySectionNames = const {},
     Set<String> writableSectionNames = const {},
     Set<String> visibleSectionNames = const {},
+    Set<String> writableFunctionNames = const {},
   }) {
     final sequences = SingleLineComments.byMode[language] ?? [];
 
@@ -99,24 +100,29 @@ class Code {
         const [];
     final sectionsMap = {for (final s in sections) s.name: s};
 
-    if (visibleSectionNames.isNotEmpty) {
-      //_makeCodeReadonly(lines: lines.lines);
-    } else if (writableSectionNames.isNotEmpty) {
-      // _applyWritableNamedSectionsToLines(
-      //   lines: lines.lines,
-      //   sections: sectionsMap,
-      //   writableSectionNames: writableSectionNames,
-      // );
-    } else {
-      // _applyReadOnlyNamedSectionsToLines(
-      //   lines: lines.lines,
-      //   sections: sectionsMap,
-      //   readOnlySectionNames: readOnlySectionNames,
-      // );
-    }
+    // if (visibleSectionNames.isNotEmpty) {
+    //   //_makeCodeReadonly(lines: lines.lines);
+    // } else if (writableSectionNames.isNotEmpty) {
+    //   // _applyWritableNamedSectionsToLines(
+    //   //   lines: lines.lines,
+    //   //   sections: sectionsMap,
+    //   //   writableSectionNames: writableSectionNames,
+    //   // );
+    // } else if (readOnlySectionNames.isNotEmpty) {
+    //   // _applyReadOnlyNamedSectionsToLines(
+    //   //   lines: lines.lines,
+    //   //   sections: sectionsMap,
+    //   //   readOnlySectionNames: readOnlySectionNames,
+    //   // );
+    // }
 
     //logicherder funciton
-    _makeFunctionHeadFootReadOnly(lines: lines.lines, mode: language);
+    if (writableFunctionNames.isNotEmpty) {
+      _applyWritableFunctionNamesToLines(
+        lines: lines.lines,
+        writableFunctionNames: writableFunctionNames,
+      );
+    }
 
     final visibleSectionsHiddenRanges = _visibleSectionsToHiddenRanges(
       visibleSectionNames,
@@ -193,21 +199,26 @@ class Code {
   );
 
   //logicherder
-  static void _makeFunctionHeadFootReadOnly({
+
+  static void _applyWritableFunctionNamesToLines({
     required List<CodeLine> lines,
-    Mode? mode,
+    required Set<String> writableFunctionNames,
   }) {
+    //TODO do for each function,
+    //TODO Function parser
+    //For now assuming code has only one function and thats it
+
     //make header line readonly
     for (int i = 0; i < lines.length - 1; i++) {
       lines[i] = lines[i].copyWith(isReadOnly: true);
-      if (lines[i].text.contains("{")) {
+      if (lines[i].text.contains('{')) {
         break;
       }
     }
     //make footer readonly
-    for (int i = lines.length - 1; i > 0; i++) {
+    for (int i = lines.length - 1; i > 0; i--) {
       lines[i] = lines[i].copyWith(isReadOnly: true);
-      if (lines[i].text.contains("}")) {
+      if (lines[i].text.contains('}')) {
         break;
       }
     }

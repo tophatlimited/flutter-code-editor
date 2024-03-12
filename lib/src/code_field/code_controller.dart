@@ -66,6 +66,7 @@ class CodeController extends TextEditingController {
   final AbstractNamedSectionParser? namedSectionParser;
   Set<String> _readOnlySectionNames;
   Set<String> _writableSectionNames;
+  Set<String> _writableFunctionNames;
 
   /// A map of specific regexes to style
   final Map<String, TextStyle>? patternMap;
@@ -141,6 +142,7 @@ class CodeController extends TextEditingController {
     Set<String> readOnlySectionNames = const {},
     Set<String> writableSectionNames = const {},
     Set<String> visibleSectionNames = const {},
+    Set<String> writableFunctionNames = const {},
     this.analysisResult = const AnalysisResult(issues: []),
     this.patternMap,
     this.readOnly = false,
@@ -153,6 +155,7 @@ class CodeController extends TextEditingController {
   })  : _analyzer = analyzer,
         _readOnlySectionNames = readOnlySectionNames,
         _writableSectionNames = writableSectionNames,
+        _writableFunctionNames = writableFunctionNames,
         _code = Code.empty,
         _isTabReplacementEnabled = modifiers.any((e) => e is TabModifier) {
     setLanguage(language, analyzer: analyzer);
@@ -756,6 +759,7 @@ class CodeController extends TextEditingController {
       readOnlySectionNames: _readOnlySectionNames,
       writableSectionNames: _writableSectionNames,
       visibleSectionNames: _visibleSectionNames,
+      writableFunctionNames: _writableFunctionNames,
     );
   }
 
@@ -799,6 +803,7 @@ class CodeController extends TextEditingController {
 
   Set<String> get readOnlySectionNames => _readOnlySectionNames;
   Set<String> get writableSectionNames => _writableSectionNames;
+  Set<String> get writableFunctionNames => _writableFunctionNames;
 
   set readOnlySectionNames(Set<String> newValue) {
     _readOnlySectionNames = newValue;
@@ -809,6 +814,13 @@ class CodeController extends TextEditingController {
 
   set writableSectionNames(Set<String> newValue) {
     _writableSectionNames = newValue;
+    _updateCode(_code.text);
+
+    notifyListeners();
+  }
+
+  set writableFunctionNames(Set<String> newValue) {
+    _writableFunctionNames = newValue;
     _updateCode(_code.text);
 
     notifyListeners();
