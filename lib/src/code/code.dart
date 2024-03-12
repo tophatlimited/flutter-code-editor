@@ -131,27 +131,22 @@ class Code {
     } else if (language == graphql) {
       _makeCodeReadonly(lines: lines.lines);
     }
-    if (writableFunctionNames.isNotEmpty) {
-      _applyWritableFunctionNamesToLines(
-        lines: lines.lines,
-        writableFunctionNames: writableFunctionNames,
-      );
-    }
 
-    final visibleSectionsHiddenRanges = _visibleSectionsToHiddenRanges(
-      visibleSectionNames,
-      sectionsMap,
-      lines,
-    );
+    //unnecessary
+    // final visibleSectionsHiddenRanges = _visibleSectionsToHiddenRanges(
+    //   visibleSectionNames,
+    //   sectionsMap,
+    //   lines,
+    // );
 
-    final commentsHiddenRanges = _commentsToHiddenRanges(
-      serviceComments,
-    );
+    // final commentsHiddenRanges = _commentsToHiddenRanges(
+    //   serviceComments,
+    // );
 
     final hiddenRangesBuilder = HiddenRangesBuilder.fromMaps(
       {
-        String: visibleSectionsHiddenRanges,
-        int: commentsHiddenRanges,
+        String: {},
+        int: {},
       },
       textLength: text.length,
     );
@@ -162,6 +157,7 @@ class Code {
       //TODO
       hiddenRanges: HiddenRanges(ranges: [], textLength: 0), // hiddenRanges,
     );
+    //end unnecessary
 
     return Code._(
       text: text,
@@ -380,6 +376,18 @@ class Code {
 
     final start = section.firstLine;
     final end = section.lastLine ?? lines.lines.length - 1;
+
+    return lines.lines
+        .sublist(start, end + 1)
+        .map((line) => line.text)
+        .join('\n');
+  }
+
+  String getWritableCode() {
+    //TODO by function name
+
+    final start = 1;
+    final end = lines.lines.length - 1;
 
     return lines.lines
         .sublist(start, end + 1)
