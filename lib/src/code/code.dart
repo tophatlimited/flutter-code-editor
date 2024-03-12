@@ -143,36 +143,36 @@ class Code {
     //   serviceComments,
     // );
 
-    final hiddenRangesBuilder = HiddenRangesBuilder.fromMaps(
-      {
-        String: {}, //visibleSectionsHiddenRanges
-        int: {}, //commentsHiddenRanges
-      },
-      textLength: 0, //text.length,
-    );
-    final hiddenRanges = hiddenRangesBuilder.ranges;
+    // final hiddenRangesBuilder = HiddenRangesBuilder.fromMaps(
+    //   {
+    //     String: visibleSectionsHiddenRanges,
+    //     int: commentsHiddenRanges
+    //   },
+    //   textLength: text.length,
+    // );
+    //final hiddenRanges = hiddenRangesBuilder.ranges;
 
-    final hiddenLineRangesBuilder = HiddenLineRangesBuilder(
-      codeLines: lines,
-      //TODO
-      hiddenRanges: HiddenRanges(ranges: [], textLength: 0), // hiddenRanges,
-    );
+    // final hiddenLineRangesBuilder = HiddenLineRangesBuilder(
+    //   codeLines: lines,
+    //   hiddenRanges: hiddenRanges,
+    // );
     //end unnecessary
 
     return Code._(
       text: text,
       foldableBlocks: foldableBlocks,
       foldedBlocks: {},
-      hiddenLineRanges: hiddenLineRangesBuilder.hiddenLineRanges,
-      hiddenRanges: hiddenRanges,
-      hiddenRangesBuilder: hiddenRangesBuilder,
+      hiddenLineRanges:
+          HiddenLineRanges.empty, // hiddenLineRangesBuilder.hiddenLineRanges,
+      hiddenRanges: HiddenRanges.empty,
+      hiddenRangesBuilder: HiddenRangesBuilder.empty,
       highlighted: highlighted,
       invalidBlocks: invalidBlocks,
       lines: lines,
       namedSections: sectionsMap,
       visibleHighlighted:
-          hiddenRanges.cutHighlighted(highlighted)?.splitLines(),
-      visibleText: hiddenRanges.cutString(text),
+          highlighted, //hiddenRanges.cutHighlighted(highlighted)?.splitLines(),
+      visibleText: text, //hiddenRanges.cutString(text),
       visibleSectionNames: visibleSectionNames,
     );
   }
