@@ -126,12 +126,12 @@ class Code {
     if (language == javascript) {
       _applyWritableFunctionNamesToLines(
         lines: lines.lines,
-        writableFunctionNames: writableFunctionNames,
+        writableFunctionNames: {"Main"},
       );
     } else if (language == graphql) {
       _applyWritableFunctionNamesToLines(
         lines: lines.lines,
-        writableFunctionNames: writableFunctionNames,
+        writableFunctionNames: {},
       );
     }
 
