@@ -129,7 +129,10 @@ class Code {
         writableFunctionNames: writableFunctionNames,
       );
     } else if (language == graphql) {
-      _makeCodeReadonly(lines: lines.lines);
+      _applyWritableFunctionNamesToLines(
+        lines: lines.lines,
+        writableFunctionNames: writableFunctionNames,
+      );
     }
 
     //unnecessary
