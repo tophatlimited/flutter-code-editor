@@ -92,6 +92,7 @@ class Code {
       invalidBlocks = parser.invalidBlocks;
     }
 
+    // No need for sectioning
     final sections = namedSectionParser?.parse(
           singleLineComments: commentParser.comments,
         ) ??
@@ -99,20 +100,23 @@ class Code {
     final sectionsMap = {for (final s in sections) s.name: s};
 
     if (visibleSectionNames.isNotEmpty) {
-      _makeCodeReadonly(lines: lines.lines);
+      //_makeCodeReadonly(lines: lines.lines);
     } else if (writableSectionNames.isNotEmpty) {
-      _applyWritableNamedSectionsToLines(
-        lines: lines.lines,
-        sections: sectionsMap,
-        writableSectionNames: writableSectionNames,
-      );
+      // _applyWritableNamedSectionsToLines(
+      //   lines: lines.lines,
+      //   sections: sectionsMap,
+      //   writableSectionNames: writableSectionNames,
+      // );
     } else {
-      _applyReadOnlyNamedSectionsToLines(
-        lines: lines.lines,
-        sections: sectionsMap,
-        readOnlySectionNames: readOnlySectionNames,
-      );
+      // _applyReadOnlyNamedSectionsToLines(
+      //   lines: lines.lines,
+      //   sections: sectionsMap,
+      //   readOnlySectionNames: readOnlySectionNames,
+      // );
     }
+
+    //logicherder funciton
+    _makeFunctionHeadFootReadOnly(lines: lines.lines, mode: language);
 
     final visibleSectionsHiddenRanges = _visibleSectionsToHiddenRanges(
       visibleSectionNames,
@@ -187,6 +191,27 @@ class Code {
     visibleText: '',
     visibleSectionNames: {},
   );
+
+  //logicherder
+  static void _makeFunctionHeadFootReadOnly({
+    required List<CodeLine> lines,
+    Mode? mode,
+  }) {
+    //make header line readonly
+    for (int i = 0; i < lines.length - 1; i++) {
+      lines[i] = lines[i].copyWith(isReadOnly: true);
+      if (lines[i].text.contains("{")) {
+        break;
+      }
+    }
+    //make footer readonly
+    for (int i = lines.length - 1; i > 0; i++) {
+      lines[i] = lines[i].copyWith(isReadOnly: true);
+      if (lines[i].text.contains("}")) {
+        break;
+      }
+    }
+  }
 
   static void _makeCodeReadonly({
     required List<CodeLine> lines,
