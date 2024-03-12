@@ -145,8 +145,8 @@ class Code {
 
     final hiddenRangesBuilder = HiddenRangesBuilder.fromMaps(
       {
-        String: {},
-        int: {},
+        String: {}, //visibleSectionsHiddenRanges
+        int: {}, //commentsHiddenRanges
       },
       textLength: 0, //text.length,
     );
