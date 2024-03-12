@@ -148,7 +148,7 @@ class Code {
         String: {},
         int: {},
       },
-      textLength: text.length,
+      textLength: 0, //text.length,
     );
     final hiddenRanges = hiddenRangesBuilder.ranges;
 
