@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:highlight/highlight_core.dart';
 import 'package:highlight/languages/graphql.dart';
 import 'package:highlight/languages/javascript.dart';
+import 'package:highlight/languages/dart.dart';
 
 import '../../src/highlight/result.dart';
 import '../code_field/text_editing_value.dart';
@@ -129,6 +130,11 @@ class Code {
         writableFunctionNames: {"Main"},
       );
     } else if (language == graphql) {
+      _applyWritableFunctionNamesToLines(
+        lines: lines.lines,
+        writableFunctionNames: {},
+      );
+    } else if (language == dart) {
       _applyWritableFunctionNamesToLines(
         lines: lines.lines,
         writableFunctionNames: {},
