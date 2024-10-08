@@ -137,7 +137,7 @@ class Code {
     } else if (language == dart) {
       _applyWritableFunctionNamesToLines(
         lines: lines.lines,
-        writableFunctionNames: {},
+        writableFunctionNames: {"Main"},
       );
     }
 
